@@ -1,0 +1,21 @@
+version: '3.4'
+
+services:
+  api:
+    container_name: asiayo-api
+    image: nginx:stable-alpine
+    ports:
+      - '6699:80'
+    volumes:
+      - ./api:/var/www/html
+      - ./nginx/default.conf:/etc/nginx/conf.d/default.conf
+    depends_on:
+      - fpm
+
+  fpm:
+    container_name: fpm
+    build:
+      context: ./fpm
+      dockerfile: Dockerfile
+    volumes:
+      - ./api:/var/www/html
